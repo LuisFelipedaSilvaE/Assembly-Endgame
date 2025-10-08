@@ -1,20 +1,17 @@
-<<<<<<< HEAD
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 👾 Assembly: Endgame - O Que É?
+Um jogo de adivinhação de palavras (tipo Forca) construído com React e Tailwind CSS.
 
-Currently, two official plugins are available:
+Seu objetivo é descobrir a palavra secreta antes de esgotar o número máximo de erros. Cada erro é representado pela perda de uma linguagem de programação.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# 🚀 Como Funciona (Tech)
+O projeto demonstra o uso de conceitos fundamentais do React:
 
-## React Compiler
+1. useState: Gerencia o estado do jogo (letras adivinhadas, palavra atual).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+2. clsx & Tailwind: Permite a criação de um teclado dinâmico onde as cores dos botões mudam instantaneamente (verde para acerto, vermelho para erro) com base no estado do jogo.
 
-## Expanding the ESLint configuration
+3. Acessibilidade (A11y): Usa aria-live para fornecer feedback de status em tempo real para usuários de leitores de tela.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# Assembly-Endgame
->>>>>>> 86ef7e6386d6b029fb53be4240585ac9d18a944f
+# ✨ Destaques
+O projeto foca em imutabilidade na gestão de estado e na renderização condicional para exibir a "barra de vida" (linguagens) e as mensagens de "Vitória" ou "Derrota" ao final do jogo.
