@@ -1,0 +1,80 @@
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+
+body {
+  margin: 0;
+  font-family: "Hanken Grotesk", Arial, sans-serif;
+  background-color: rgb(40, 40, 40);
+  color: rgb(215, 215, 215);
+  min-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+div#root {
+  padding: 30px;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+#ngbutton {
+  margin-inline: auto;
+}
+
+button {
+  cursor: pointer;
+}
+
+.languages.lost::before {
+  content: "💀";
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  font-size: 0.85rem;
+  border-radius: 3px;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.sr-only {
+  clip: rect(0, 0, 0, 0);
+}
+
+.from {
+  transform: skew(-20deg, 0deg);
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 7.5px 7.5px 0px 5px rgba(75, 75, 75, 0.5);
+}
+
+.keybord:focus {
+  transition: background-color 250ms ease-in-out;
+  animation: 250ms jump ease-in-out 0s 1 normal;
+}
+
+.status {
+  transition: background-color 250ms ease-in-out;
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0px);
+  }
+  25% {
+    transform: skew(10deg, 0deg) translateY(-10px);
+  }
+  50% {
+    transform: skew(10deg, 0deg) translateY(0px) scale(1);
+  }
+  75% {
+    transform: translateY(0px) scale(1.1);
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+}
