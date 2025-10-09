@@ -21,6 +21,5 @@ export function getFarewellText(language) {
   ];
 
   const randomIndex = Math.floor(Math.random() * options.length);
-  console.log("called");
   return options[randomIndex];
 }
