@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./AEApp.css";
 import { languages } from "./languages";
 import clsx from "clsx";
@@ -9,8 +9,8 @@ import { useWindowSize } from "react-use";
 export default function AEApp() {
   const [currentWord, setCurrentWord] = useState(() => getRandomWord());
   const [guessedLetters, setGuessedLetters] = useState([]);
-
   const { width } = useWindowSize();
+  const buttonsContainer = useRef(null);
 
   const numGuessesLeft = languages.length - 1;
 
@@ -31,6 +31,23 @@ export default function AEApp() {
     lastGuessedLetter && !currentWord.includes(lastGuessedLetter);
 
   const alphabet = "qwertyuiopasdfghjklzxcvbnm";
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      const key = event.key.toLowerCase();
+
+      const buttons = [...buttonsContainer.current.querySelectorAll("button")];
+
+      if ([...alphabet].includes(key) && !isGameOver) {
+        buttons.find((b) => b.innerText.toLowerCase() === key).focus();
+        !guessedLetters.includes(key) ? addGuessedLetter(key) : undefined;
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [guessedLetters, isGameOver]);
 
   function addGuessedLetter(letter) {
     setGuessedLetters((prevGuessedLetters) => {
@@ -106,7 +123,7 @@ export default function AEApp() {
         aria-disabled={guessedLetters.includes(letter)}
         aria-label={`Letter ${letter}`}
         className={clsx(
-          "border border-[rgb(215,215,215)] text-black rounded-[3px] text-[length:1.125rem] flex justify-center items-center h-8.75 w-8.75 bg-[rgb(250,185,40)] keybord shadow-[2.5px_2.5px_0px_1px_rgba(250,185,40,0.5),5px_5px_0px_1px_rgba(250,185,40,0.5)]",
+          "border border-[rgb(215,215,215)] text-black rounded-[3px] text-[length:1.125rem] flex justify-center items-center h-8.75 w-8.75 bg-[rgb(250,185,40)] shadow-[2.5px_2.5px_0px_1px_rgba(250,185,40,0.5),5px_5px_0px_1px_rgba(250,185,40,0.5)] key",
           {
             "!bg-[rgb(15,170,90)] !shadow-[2.5px_2.5px_0px_1px_rgba(15,170,90,0.5),5px_5px_0px_1px_rgba(15,170,90,0.5)]":
               isCorrect,
@@ -196,7 +213,10 @@ export default function AEApp() {
               .join(" ")}
           </p>
         </section>
-        <section className="flex flex-wrap justify-center items-center gap-2.25 max-w-112.5 bg-[rgb(50,50,50)] from">
+        <section
+          ref={buttonsContainer}
+          className="flex flex-wrap justify-center items-center gap-2.25 max-w-112.5 bg-[rgb(50,50,50)] keybord-container"
+        >
           {keybordLetters}
         </section>
         {isGameOver ? (

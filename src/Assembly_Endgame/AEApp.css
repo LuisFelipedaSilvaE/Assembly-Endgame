@@ -44,23 +44,24 @@ button {
   clip: rect(0, 0, 0, 0);
 }
 
-.from {
+.keybord-container {
   transform: skew(-20deg, 0deg);
   border-radius: 5px;
   padding: 10px;
   box-shadow: 7.5px 7.5px 0px 5px rgba(75, 75, 75, 0.5);
 }
 
-.keybord:focus {
+.key:focus {
+  outline: 0;
   transition: background-color 250ms ease-in-out;
-  animation: 250ms jump ease-in-out 0s 1 normal;
+  animation: 250ms keyDown ease-in-out 0s 1 normal;
 }
 
 .status {
   transition: background-color 250ms ease-in-out;
 }
 
-@keyframes jump {
+@keyframes keyDown {
   0% {
     transform: translate(0) scale(1);
   }
