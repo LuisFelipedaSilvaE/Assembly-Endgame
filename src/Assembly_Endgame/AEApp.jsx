@@ -9,7 +9,8 @@ import { useWindowSize } from "react-use";
 export default function AEApp() {
   const [currentWord, setCurrentWord] = useState(() => getRandomWord());
   const [guessedLetters, setGuessedLetters] = useState([]);
-  const { width } = useWindowSize();
+
+  const { width, height } = useWindowSize({});
   const buttonsContainer = useRef(null);
 
   const numGuessesLeft = languages.length - 1;
@@ -31,6 +32,21 @@ export default function AEApp() {
     lastGuessedLetter && !currentWord.includes(lastGuessedLetter);
 
   const alphabet = "qwertyuiopasdfghjklzxcvbnm";
+  const dots = [..."..."].map((dot, index) => {
+    return (
+      <span
+        style={{
+          animation: `1.5s jumping ease-in-out ${
+            index - 0.9 * index
+          }s infinite normal`,
+        }}
+        key={index}
+        className={clsx("inline-block")}
+      >
+        {dot}
+      </span>
+    );
+  });
 
   useEffect(() => {
     function handleKeyDown(event) {
@@ -41,6 +57,10 @@ export default function AEApp() {
       if ([...alphabet].includes(key) && !isGameOver) {
         buttons.find((b) => b.innerText.toLowerCase() === key).focus();
         !guessedLetters.includes(key) ? addGuessedLetter(key) : undefined;
+      }
+
+      if (isGameOver && key === "enter") {
+        startNewGame();
       }
     }
 
@@ -84,14 +104,14 @@ export default function AEApp() {
     return !isGameOver ? (
       <span
         key={index}
-        className="border-b border-b-[rgb(250,245,220)] text-[length:1.125rem] flex justify-center items-center h-10 w-10 bg-[rgb(50,50,50)]"
+        className="rounded-[3px] border-b border-b-[rgb(250,245,220)] text-[length:1.125rem] flex justify-center items-center h-10 w-10 bg-[rgb(50,50,50)] transform-[skew(-20deg,0deg)] shadow-[0px_2.5px_0px_0.01px_rgba(250,245,220,1),2.5px_2.5px_0px_0.01px_rgba(75,75,75,0.75)]"
       >
         {guessedLetters.includes(letter) ? letter.toUpperCase() : undefined}
       </span>
     ) : isGameWon ? (
       <span
         key={index}
-        className="border-b border-b-[rgb(250,245,220)] text-[length:1.125rem] flex justify-center items-center h-10 w-10 bg-[rgb(50,50,50)] text-green-500"
+        className="rounded-[3px] border-b border-b-[rgb(250,245,220)] text-[length:1.125rem] flex justify-center items-center h-10 w-10 bg-[rgb(50,50,50)] text-[rgb(15,170,90)] transform-[skew(-20deg,0deg)] shadow-[0px_2.5px_0px_0.01px_rgba(250,245,220,1),2.5px_2.5px_0px_0.01px_rgba(75,75,75,0.75)]"
       >
         {letter.toUpperCase()}
       </span>
@@ -99,7 +119,7 @@ export default function AEApp() {
       <span
         key={index}
         className={clsx(
-          "border-b border-b-[rgb(250,245,220)] text-[length:1.125rem] flex justify-center items-center h-10 w-10 bg-[rgb(50,50,50)]",
+          "rounded-[3px] border-b border-b-[rgb(250,245,220)] text-[length:1.125rem] flex justify-center items-center h-10 w-10 bg-[rgb(50,50,50)] transform-[skew(-20deg,0deg)] shadow-[0px_2.5px_0px_0.01px_rgba(250,245,220,1),2.5px_2.5px_0px_0.01px_rgba(75,75,75,0.75)]",
           !guessedLetters.includes(letter)
             ? "text-[rgb(235,95,75)]"
             : "text-[rgb(15,170,90)]"
@@ -140,7 +160,7 @@ export default function AEApp() {
 
   return (
     <>
-      {isGameWon ? <Confetti width={width} /> : undefined}
+      {isGameWon ? <Confetti width={width} height={height} /> : undefined}
       <main className="flex flex-col justify-center items-center gap-7.5 h-full w-full">
         <header className="text-center flex flex-col justify-center items-center gap-4">
           <h1 className="text-[length:1.25rem] font-[500] text-[rgb(250,245,220)]">
@@ -188,7 +208,7 @@ export default function AEApp() {
         <section className="w-full flex flex-wrap justify-center items-center max-w-87.5 gap-1.25 self-center">
           {languageElements}
         </section>
-        <section className="flex justify-center items-center gap-0.5">
+        <section className="flex flex-wrap justify-center items-center gap-1.5">
           {wordElements}
         </section>
         <section
@@ -220,13 +240,18 @@ export default function AEApp() {
           {keybordLetters}
         </section>
         {isGameOver ? (
-          <button
-            id="ngbutton"
-            onClick={startNewGame}
-            className="text-black bg-[rgb(15,180,230)] border border-[rgb(215,215,215)] rounded-sm w-56.25 h-10 p-[6px_12px] block"
-          >
-            New Game
-          </button>
+          <>
+            <button
+              id="ngbutton"
+              onClick={startNewGame}
+              className="text-black bg-[rgb(15,180,230)] border border-[rgb(215,215,215)] rounded-sm w-56.25 h-10 p-[6px_12px] block"
+            >
+              New Game
+            </button>
+            <p className="opacity-50 bg-[rgb(50,50,50)] p-2.5 rounded-sm">
+              Press enter or click the button to continue{dots}
+            </p>
+          </>
         ) : undefined}
       </main>
     </>

@@ -78,3 +78,18 @@ button {
     transform: translate(0) scale(1);
   }
 }
+
+@keyframes jumping {
+  0% {
+    transform: translate(0) scale(1);
+  }
+  25% {
+    transform: translate(0, -5px) scale(1.5);
+  }
+  66% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
