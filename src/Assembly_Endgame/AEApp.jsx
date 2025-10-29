@@ -55,7 +55,15 @@ export default function AEApp() {
       const buttons = [...buttonsContainer.current.querySelectorAll("button")];
 
       if ([...alphabet].includes(key) && !isGameOver) {
-        buttons.find((b) => b.innerText.toLowerCase() === key).focus();
+        buttons.find((b) => b.innerText.toLowerCase() === key).style.animation =
+          "250ms keyDown ease-in-out 0s 1 normal";
+
+        setTimeout(() => {
+          buttons.find(
+            (b) => b.innerText.toLowerCase() === key
+          ).style.animation = "none";
+        }, 250);
+
         !guessedLetters.includes(key) ? addGuessedLetter(key) : undefined;
       }
 
@@ -68,6 +76,30 @@ export default function AEApp() {
 
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [guessedLetters, isGameOver]);
+
+  useEffect(() => {
+    const buttons = document.querySelectorAll(".key");
+
+    function toggleAnimation(event) {
+      const button = event.currentTarget;
+
+      button.style.animation = "250ms keyDown ease-in-out 0s 1 normal";
+
+      setTimeout(() => {
+        button.style.animation = "none";
+      }, 250);
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", toggleAnimation);
+    });
+
+    return () => {
+      buttons.forEach((button) => {
+        button.removeEventListener("click", toggleAnimation);
+      });
+    };
+  }, []);
 
   function addGuessedLetter(letter) {
     setGuessedLetters((prevGuessedLetters) => {

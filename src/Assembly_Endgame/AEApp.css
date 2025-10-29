@@ -51,10 +51,9 @@ button {
   box-shadow: 7.5px 7.5px 0px 5px rgba(75, 75, 75, 0.5);
 }
 
-.key:focus {
+.key {
   outline: 0;
-  transition: background-color 250ms ease-in-out;
-  animation: 250ms keyDown ease-in-out 0s 1 normal;
+  transition: background-color 250ms ease-in-out, box-shadow 250ms ease-in-out;
 }
 
 .status {
